@@ -1,13 +1,15 @@
-import Homelayout from "../Layout/homelayout"
-import Login from "./login"
+import HomeLayout from "../Layout/HomeLayout"
+import Loginpage from "./Login/login"
 
-function Homepage(){
-    return(
-        <>
-        <Homelayout>
-           <Login></Login>
-        </Homelayout>
-        </>
-    )
+
+const Homepage=()=>{
+return(
+
+   <>
+<HomeLayout>
+<Loginpage></Loginpage>
+</HomeLayout>
+   </>
+)
 }
 export default Homepage

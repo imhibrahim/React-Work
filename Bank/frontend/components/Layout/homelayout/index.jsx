@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import{Link} from "react-router-dom"
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -8,24 +9,15 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 const { Header, Sider, Content } = Layout;
-const Homelayout = ({children}) => {
+const HomeLayout = ({children}) => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <Layout>
+        <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
+       <Link to="/admin" className='!text-pink-500'>Admin Panel</Link>
         </Header>
         <Content
           style={{
@@ -41,4 +33,4 @@ const Homelayout = ({children}) => {
       </Layout>
   );
 };
-export default Homelayout;
+export default HomeLayout;
