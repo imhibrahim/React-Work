@@ -1,22 +1,23 @@
 const mongo =require("mongoose");
-const {Schema} =mongo;
+const{Schema}=mongo;
 
-const usersSchema=new Schema({
+
+const usersSchema= new Schema({
     fullname:String,
-    mobile :String,
+    mobile:String,
     email:{
         type:String,
-        unique:true
+        unique:true,
     },
     password:String,
     profile:String,
     address:String,
-    usertype:String,
+    userType:String,
     isActive:{
         type:Boolean,
-        default :false
-    }},{timestamps:true});
+        default:false
+    }
+},{timestamps:true});
 
-    module.exports=mongo.model("user",usersSchema);
-    
 
+module.exports=mongo.model("user",usersSchema)

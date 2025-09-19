@@ -1,44 +1,51 @@
-const dbservice=require("../Services/dbServices")
+// Second time hit API
 
-const creatData=async(req,res,schema)=>{
-try{
-     //first attemp
-    // const data=req.body;
-    // res.status(200).json({
-    //     massage:"Data received",
-    //     data
-    // })
-      //second attemp
-       const data=req.body;
-    const dbRes=await dbservice.CreateNewUser(data,schema)
+// const createData = (req, res, schema) => {
+//   try {
+//     const data = req.body;
+//     console.log(data);
+//     res.status(200).json({
+//       message: "Data Received..",
+//       data
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Internal Server Error.....",
+//       error
+//     });
+//   }
+// };
+
+// module.exports = { createData };
+
+
+
+// forth time hit Api
+const dbServices=require('../services/db.service')
+const createData =async(req, res, schema) => {
+  try {
+    const data = req.body;
+    console.log(data);
+    const dbRes=await dbServices.createNewRecord(data,schema);
     res.status(200).json({
-        massage:"Data inserted ....",
-        success:true,
-        data:dbRes
-    })
-
-}
-
-catch(error){
-    if(error.code== 11000){
- res.status(422).json({
-        massage:"Email Already Exists....",
-        success:false,
-        error
-    })
+      message: "Data Insertes Successfully..",
+      success:true,
+      data: dbRes
+    });
+  } catch (error) {
+    if(error.code===11000){
+res.status(422).json({
+      message: "Dublicate the your Email.....",
+      error
+    });
+    }
+    else{
+        res.status(500).json({
+      message: "Internal Server Error.....",
+      error
+    });
+    }
   }
-    
-
-  else{
-      res.status(500).json({
-        massage:"Internal Server Error",
-        error
-    })
-  }
-}
-
-}
-
-module.exports={
-    creatData
 };
+
+module.exports = { createData };

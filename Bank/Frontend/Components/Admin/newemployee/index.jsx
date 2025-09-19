@@ -1,22 +1,60 @@
 import { Button, Card, Form, Input, Table } from "antd";
 import AdminLayout from "../../Layout/AdminLayout";
 import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { trimData } from "../../../modules/module";
+import axios from "axios";
 const {Item}=Form;
+import swal from"sweetalert";
 
 function NewEmployee(){
-    const onFinish=(values)=>{
-console.log(values)
+
+
+//stats collection 
+const [empForm]=Form.useForm();
+// new employee
+const onFinish =async (values)=>{
+ let finalobj  = trimData(values);
+ console.log(finalobj);
 }
 
+// second time
+// const onFinish =async (values)=>{
+// try{
+//      let finalobj  = trimData(values);
+//      const {data}=await axios.post("http://localhost:4500/api/users",finalobj);
+//      console.log(data);
+//       swal("Success","Employee Inserted!","success");
+//       empForm.resetFields();
+// }
+// catch(error){
+//     // console.log(error)
+//     if(error?.response?.data.error.code === 11000){
+//         empForm.setFields([
+//             {
+//                 name:"email",
+//                 errors:["Email Already Exits"]
+//             }
+//         ])
+//     }
+//     else{
+//         swal("Warning","Try Again later","warning");
+//     }
+// }
+// }
+
+
+
+
+//cloumn for table
 const columns=[
     {
-    title:"profile",
-    key:"Full Name"
+    title:"pic",
+    key:"pic"
 },
   {
     title:"Full Name",
-    dataIndex:"Full Name",
-    key:"Full Name"
+    dataIndex:"name",
+    key:"name"
 },
   {
     title:"Email",
@@ -48,7 +86,7 @@ return(
 
 <div className="grid md:grid-cols-3 gap-3">
 <Card title="Add New Employee">
-<Form layout="vertical" onFinish={onFinish}>
+<Form layout="vertical" onFinish={onFinish} form={empForm}>
 <Item label="Profile" name="pic">
     <Input type="file"></Input>
 </Item>
