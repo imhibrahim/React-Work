@@ -20,6 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 const userRouter=require("./routes/users.rout");
 app.use("/api/users",userRouter)
 
+const uploadrouter=require("./routes/upload.routes");
+app.use("/api/upload",uploadrouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -5,44 +5,71 @@ import { trimData } from "../../../modules/module";
 import axios from "axios";
 const {Item}=Form;
 import swal from"sweetalert";
+import { useState } from "react";
 
 function NewEmployee(){
 
 
 //stats collection 
 const [empForm]=Form.useForm();
+const [photo,setphoto]=useState(null)
 // new employee
-const onFinish =async (values)=>{
- let finalobj  = trimData(values);
- console.log(finalobj);
-}
+// const onFinish =async (values)=>{
+//  let finalobj  = trimData(values);
+//  console.log(finalobj);
+// }
 
 // second time
-// const onFinish =async (values)=>{
-// try{
-//      let finalobj  = trimData(values);
-//      const {data}=await axios.post("http://localhost:4500/api/users",finalobj);
-//      console.log(data);
-//       swal("Success","Employee Inserted!","success");
-//       empForm.resetFields();
-// }
-// catch(error){
-//     // console.log(error)
-//     if(error?.response?.data.error.code === 11000){
-//         empForm.setFields([
-//             {
-//                 name:"email",
-//                 errors:["Email Already Exits"]
-//             }
-//         ])
-//     }
-//     else{
-//         swal("Warning","Try Again later","warning");
-//     }
-// }
+const onFinish =async (values)=>{
+try{
+     let finalobj  = trimData(values);
+     finalobj.profile=photo? photo:"bankimages/pic1.jpg";
+     const {data}=await axios.post("http://localhost:4500/api/users",finalobj);
+     console.log(data);
+      swal("Success","Employee Inserted!","success");
+      empForm.resetFields();
+      setphoto(null);
+}
+catch(error){
+    // console.log(error)
+    if(error?.response?.data.error.code === 11000){
+        empForm.setFields([
+            {
+                name:"email",
+                errors:["Email Already Exits"]
+            }
+        ])
+    }
+    else{
+        swal("Warning","Try Again later","warning");
+    }
+}
+}
+
+
+
+
+
+//handleupload
+// const handleupload= async(e)=>{
+//     console.log(e.target.files[0])
 // }
 
 
+//second time
+const handleupload= async(e)=>{
+   try{
+    let file =e.target.files[0];
+    const formData=new FormData();
+    formData.append("photo",file);
+   const {data}=await axios.post("http://localhost:4500/api/upload",formData);
+   //console.log(data)
+    console.log( setphoto(data.filepath))
+   }
+   catch(err){
+    swal("Feiled","Unable to Upload","warning")
+   }
+}
 
 
 //cloumn for table
@@ -87,11 +114,11 @@ return(
 <div className="grid md:grid-cols-3 gap-3">
 <Card title="Add New Employee">
 <Form layout="vertical" onFinish={onFinish} form={empForm}>
-<Item label="Profile" name="pic">
-    <Input type="file"></Input>
+<Item label="Profile" name="profile">
+    <Input onChange={handleupload} type="file"></Input>
 </Item>
 <div className="grid md:grid-cols-2 gap-x-2">
-    <Item label="Full Name" name="name" rules={[{required:true}]}>
+    <Item label="Full Name" name="fullname" rules={[{required:true}]}>
     <Input type="text" placeholder="Name"/>
 </Item>
 <Item label="Number"  name="number" rules={[{required:true}]}>
