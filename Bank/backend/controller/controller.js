@@ -29,21 +29,24 @@ res.status(422).json({
 
 
 //get data controller
-const getdata= async(req, res, schema)=>{
-  try{
-const dbRes=await dbServices.findAllRecord(schema);
-return res.status(200).json({
-  massage:"Record Founded....",
-  data: dbRes
-})
-  }
-  catch(e){
-   res.status(500).json({
-      message: "Internal Server Error.....",
-      error : e
-    });
-    
-  }
+
+const getdata=async(req, res, schema)=>{
+try{
+  const dbRes=await dbServices.findAllRecord(schema);
+  res.status(200).json({
+    massage:"Record is Founded....",
+    data :dbRes
+  })
 }
+catch(e){
+res.status(500).json({
+  massage:"Internal Server Error",
+  error:e
+})  
+}
+}
+
+// goto frontend create stats
+
 
 module.exports = { createData,getdata };

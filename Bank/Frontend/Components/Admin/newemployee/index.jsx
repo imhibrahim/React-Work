@@ -1,6 +1,6 @@
-import { Button, Card, Form, Image, Input, Table } from "antd";
+import { Button, Card, Form, Image, Input, Table, Tooltip } from "antd";
 import AdminLayout from "../../Layout/AdminLayout";
-import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { trimData } from "../../../modules/module";
 import axios from "axios";
 const {Item}=Form;
@@ -12,27 +12,28 @@ function NewEmployee(){
 //stats collection 
 const [empForm]=Form.useForm();
 const [photo,setphoto]=useState(null);
+//get data states
 const [allemployee,setemp]=useState([]);
 
     //get employee
-     useEffect(()=>{
+ useEffect(()=>{
 const fatch=async()=>{
     try{
-       const {data}=await axios.get("http://localhost:4500/api/users");
-        //console.log(data);
-        setemp(data.data);
+          const {data}=await axios.get("http://localhost:4500/api/users");
+          console.log(data)
+          // go to backend
+          setemp(data.data)
     }
     catch(e){
-         swal("Failed","Enable To Fatch Data !","warning")
+          swal("Warning","Enable to data found ! ","warning");
     }
 }
-fatch();
-     },[])
+fatch()
+ },[])
 
 
 
 
-// second time
 const onFinish =async (values)=>{
 try{
      let finalobj  = trimData(values);
@@ -65,13 +66,7 @@ catch(error){
 }
 }
 
-//handleupload first time
-// const handleupload= async(e)=>{
-//     console.log(e.target.files[0])
-// }
 
-
-//handleupload second time
 const handleupload= async(e)=>{
   try{
    let file=e.target.files[0];
@@ -114,14 +109,22 @@ const columns=[
   {
     title:"Address",
     dataIndex:"address",
-    key:"address"
+    key:"address",
+       render: (text) => (
+    <Tooltip title={text}>
+      <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", display: "block", maxWidth: 120 }}>
+        {text}
+      </span>
+    </Tooltip>
+  )
+    
 },  
 {
     title:"Action",
     key:"action",
-    render:()=>(
+    render:(_,obj)=>(
 <div className="flex gap-1">
-    <Button className="!bg-pink-100 !text-pink-500" icon={<EyeInvisibleOutlined/>}/>
+    <Button className={`${obj.isActive?"!bg-indego-100 !text-indego-500":"!bg-pink-100 !text-pink-500"}`} icon={obj.isActive?<EyeOutlined/>:<EyeInvisibleOutlined/>}/>
     <Button className="!bg-green-100 !text-green-500" icon={<EditOutlined/>}/>
     <Button className="!bg-rose-100 !text-rose-500" icon={<DeleteOutlined/>}/>
 
@@ -163,8 +166,8 @@ return(
 </Form>
 </Card>
 
-<Card title="Employee List" className="md:col-span-2">
-    <Table columns={columns} dataSource={allemployee}/>
+<Card title="Employee List" className="md:col-span-2" style={{overflow:"auto"}}>
+    <Table columns={columns} dataSource={allemployee} scroll={{x:"max-content"}}/>
 </Card>
 </div>
 
