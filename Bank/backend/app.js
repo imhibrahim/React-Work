@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const userRouter=require("./routes/users.rout");
 app.use("/api/users",userRouter)
 
-const uploadrouter=require("./routes/upload.routes");
+ const uploadrouter=require("./routes/upload.routed");
 app.use("/api/upload",uploadrouter);
 
 

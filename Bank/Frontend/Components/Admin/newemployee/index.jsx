@@ -7,17 +7,13 @@ const {Item}=Form;
 import swal from"sweetalert";
 import { useState } from "react";
 
+
 function NewEmployee(){
 
 
 //stats collection 
 const [empForm]=Form.useForm();
-const [photo,setphoto]=useState(null)
-// new employee
-// const onFinish =async (values)=>{
-//  let finalobj  = trimData(values);
-//  console.log(finalobj);
-// }
+const [photo,setphoto]=useState(null);
 
 // second time
 const onFinish =async (values)=>{
@@ -29,6 +25,8 @@ try{
       swal("Success","Employee Inserted!","success");
       empForm.resetFields();
       setphoto(null);
+  
+ 
 }
 catch(error){
     // console.log(error)
@@ -46,30 +44,31 @@ catch(error){
 }
 }
 
-
-
-
-
-//handleupload
+//handleupload first time
 // const handleupload= async(e)=>{
 //     console.log(e.target.files[0])
 // }
 
 
-//second time
+//handleupload second time
 const handleupload= async(e)=>{
-   try{
-    let file =e.target.files[0];
+  try{
+   let file=e.target.files[0];
     const formData=new FormData();
     formData.append("photo",file);
    const {data}=await axios.post("http://localhost:4500/api/upload",formData);
    //console.log(data)
-    console.log( setphoto(data.filepath))
-   }
-   catch(err){
-    swal("Feiled","Unable to Upload","warning")
-   }
+
+   console.log(setphoto(data.filepath))
+
+
+  }
+  catch(e){
+    swal("Failed","Enable To Upload Image","warning")
+  }
 }
+
+
 
 
 //cloumn for table
