@@ -1,26 +1,4 @@
-// Second time hit API
 
-// const createData = (req, res, schema) => {
-//   try {
-//     const data = req.body;
-//     console.log(data);
-//     res.status(200).json({
-//       message: "Data Received..",
-//       data
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Internal Server Error.....",
-//       error
-//     });
-//   }
-// };
-
-// module.exports = { createData };
-
-
-
-// forth time hit Api
 const dbServices=require('../services/db.service')
 const createData =async(req, res, schema) => {
   try {
@@ -48,4 +26,24 @@ res.status(422).json({
   }
 };
 
-module.exports = { createData };
+
+
+//get data controller
+const getdata= async(req, res, schema)=>{
+  try{
+const dbRes=await dbServices.findAllRecord(schema);
+return res.status(200).json({
+  massage:"Record Founded....",
+  data: dbRes
+})
+  }
+  catch(e){
+   res.status(500).json({
+      message: "Internal Server Error.....",
+      error : e
+    });
+    
+  }
+}
+
+module.exports = { createData,getdata };

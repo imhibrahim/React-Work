@@ -1,19 +1,36 @@
-import { Button, Card, Form, Input, Table } from "antd";
+import { Button, Card, Form, Image, Input, Table } from "antd";
 import AdminLayout from "../../Layout/AdminLayout";
 import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { trimData } from "../../../modules/module";
 import axios from "axios";
 const {Item}=Form;
 import swal from"sweetalert";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 function NewEmployee(){
-
-
 //stats collection 
 const [empForm]=Form.useForm();
 const [photo,setphoto]=useState(null);
+const [allemployee,setemp]=useState([]);
+
+    //get employee
+     useEffect(()=>{
+const fatch=async()=>{
+    try{
+       const {data}=await axios.get("http://localhost:4500/api/users");
+        //console.log(data);
+        setemp(data.data);
+    }
+    catch(e){
+         swal("Failed","Enable To Fatch Data !","warning")
+    }
+}
+fatch();
+     },[])
+
+
+
 
 // second time
 const onFinish =async (values)=>{
@@ -22,9 +39,13 @@ try{
      finalobj.profile=photo? photo:"bankimages/pic1.jpg";
      const {data}=await axios.post("http://localhost:4500/api/users",finalobj);
      console.log(data);
-      swal("Success","Employee Inserted!","success");
+      swal("Success","Employee Inserted!","success").then(()=>{
+           window.location.reload();
+      });
       empForm.resetFields();
       setphoto(null);
+   
+        
   
  
 }
@@ -75,11 +96,14 @@ const handleupload= async(e)=>{
 const columns=[
     {
     title:"pic",
-    key:"pic"
+    key:"pic",
+    render:(src,obj)=>(
+        <Image  src={`http://localhost:4500/${obj.profile}`}  className="rounded-full" width={40} height={40}/>
+        )
 },
   {
     title:"Full Name",
-    dataIndex:"name",
+    dataIndex:"fullname",
     key:"name"
 },
   {
@@ -91,7 +115,7 @@ const columns=[
     title:"Address",
     dataIndex:"address",
     key:"address"
-},
+},  
 {
     title:"Action",
     key:"action",
@@ -140,7 +164,7 @@ return(
 </Card>
 
 <Card title="Employee List" className="md:col-span-2">
-    <Table columns={columns} dataSource={[{},{}]}/>
+    <Table columns={columns} dataSource={allemployee}/>
 </Card>
 </div>
 
