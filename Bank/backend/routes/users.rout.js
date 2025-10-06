@@ -14,6 +14,11 @@ router.get("/",(req,res)=>{
 controller.getdata(req,res,UsersSchema)
 });
 
+//delete
+router.delete("/:id",(req,res)=>{
+controller.deletdata(req,res,UsersSchema)
+});
+
 
 
 

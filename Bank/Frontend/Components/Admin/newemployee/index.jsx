@@ -1,4 +1,4 @@
-import { Button, Card, Form, Image, Input, Table, Tooltip } from "antd";
+import { Button, Card, Form, Image, Input, Popconfirm, Table, Tooltip } from "antd";
 import AdminLayout from "../../Layout/AdminLayout";
 import { DeleteOutlined, EditOutlined, EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { trimData } from "../../../modules/module";
@@ -84,6 +84,22 @@ const handleupload= async(e)=>{
   }
 }
 
+//delete 
+const onDeleteUser= async(id)=>{
+// alert(id)
+try{
+   const {data}=await axios.delete(`http://localhost:4500/api/users/${id}`);
+   swal('Success',"User Is Delete Successfully...","success").then(()=>{
+    window.location.reload();
+   });
+   console.log(data);
+
+}
+catch(e){
+  swal('Error',"Enable to delete this Data \n Please Try again Later !",'error');
+  console.log(e)
+}
+}
 
 
 
@@ -126,7 +142,10 @@ const columns=[
 <div className="flex gap-1">
     <Button className={`${obj.isActive?"!bg-indego-100 !text-indego-500":"!bg-pink-100 !text-pink-500"}`} icon={obj.isActive?<EyeOutlined/>:<EyeInvisibleOutlined/>}/>
     <Button className="!bg-green-100 !text-green-500" icon={<EditOutlined/>}/>
-    <Button className="!bg-rose-100 !text-rose-500" icon={<DeleteOutlined/>}/>
+<Popconfirm title="Are You Sure ! ?" description="Once You Delete this , You can not see again !" onCancel={()=>swal("Safe","Data is Safe Mode..","success")}
+  onConfirm={()=>onDeleteUser(obj._id)}>
+      <Button className="!bg-rose-100 !text-rose-500" icon={<DeleteOutlined/>}/>
+</Popconfirm>
 
 </div>
     )
@@ -166,7 +185,7 @@ return(
 </Form>
 </Card>
 
-<Card title="Employee List" className="md:col-span-2" style={{overflow:"auto"}}>
+<Card title="Employee List" className="md:col-span-2" style={{overflowX:"auto"}}>
     <Table columns={columns} dataSource={allemployee} scroll={{x:"max-content"}}/>
 </Card>
 </div>

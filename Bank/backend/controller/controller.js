@@ -46,7 +46,24 @@ res.status(500).json({
 }
 }
 
-// goto frontend create stats
+
+//delete data
+const deletdata=async(req, res, schema)=>{
+try{
+  const {id}=req.params;
+  const dbRes=await dbServices.deleteRecord(id,schema);
+  res.status(200).json({
+    massage:"Record is Deleted....",
+    data :dbRes
+  })
+}
+catch(e){
+res.status(500).json({
+  massage:"Internal Server Error",
+  error:e
+})  
+}
+}
 
 
-module.exports = { createData,getdata };
+module.exports = { createData,getdata,deletdata};
