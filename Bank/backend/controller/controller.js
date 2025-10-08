@@ -46,9 +46,7 @@ res.status(500).json({
 }
 }
 
-
-//delete data
-const deletdata=async(req, res, schema)=>{
+const deletedata=async(req, res, schema)=>{
 try{
   const {id}=req.params;
   const dbRes=await dbServices.deleteRecord(id,schema);
@@ -66,4 +64,26 @@ res.status(500).json({
 }
 
 
-module.exports = { createData,getdata,deletdata};
+
+const updatedata=async(req, res, schema)=>{
+try{
+  const {id}=req.params;
+    const updatedData = req.body;
+  const dbRes = await dbServices.updateRecord(id, updatedData, schema);
+
+  res.status(200).json({
+    massage:"Record is updated....",
+    data :dbRes
+  })
+}
+catch(e){
+res.status(500).json({
+  massage:"Internal Server Error",
+  error:e
+})  
+}
+}
+
+
+
+module.exports = { createData,getdata,deletedata,updatedata};

@@ -14,6 +14,7 @@ const [empForm]=Form.useForm();
 const [photo,setphoto]=useState(null);
 //get data states
 const [allemployee,setemp]=useState([]);
+const [edit,setEdit]=useState(null);
 
     //get employee
  useEffect(()=>{
@@ -101,6 +102,39 @@ catch(e){
 }
 }
 
+//update
+const onUpdate=async(obj)=>{
+  //console.log(obj)
+
+  //Create State on top
+setEdit(obj);
+empForm.setFieldsValue(obj)
+
+}
+
+const onEdit=async(values)=>{
+ try{
+   let finalobj=trimData(values);
+  if(photo){
+    finalobj.profile=photo
+  }
+  //console.log(edit._id)
+   const {data}=await axios.put(`http://localhost:4500/api/users/${edit._id}`,finalobj);
+
+   swal('Success',"User Is Delete Successfully...","success").then(()=>{
+  window.location.reload();
+    console.log(data)
+   });
+
+ }
+ catch(e){
+  swal("Error","Unable to Updated","error")
+  console.log(e)
+ }
+}
+
+
+
 
 
 //cloumn for table
@@ -141,7 +175,11 @@ const columns=[
     render:(_,obj)=>(
 <div className="flex gap-1">
     <Button className={`${obj.isActive?"!bg-indego-100 !text-indego-500":"!bg-pink-100 !text-pink-500"}`} icon={obj.isActive?<EyeOutlined/>:<EyeInvisibleOutlined/>}/>
-    <Button className="!bg-green-100 !text-green-500" icon={<EditOutlined/>}/>
+ 
+<Popconfirm title="This Data is Update ?" description="All Time's Update this data"
+onCancel={()=>swal("Safe","Data is Safe Mode..","warning")}
+  onConfirm={()=>onUpdate(obj)}><Button className="!bg-green-100 !text-green-500" icon={<EditOutlined/>}/></Popconfirm>
+
 <Popconfirm title="Are You Sure ! ?" description="Once You Delete this , You can not see again !" onCancel={()=>swal("Safe","Data is Safe Mode..","success")}
   onConfirm={()=>onDeleteUser(obj._id)}>
       <Button className="!bg-rose-100 !text-rose-500" icon={<DeleteOutlined/>}/>
@@ -158,29 +196,32 @@ return(
 
 <div className="grid md:grid-cols-3 gap-3">
 <Card title="Add New Employee">
-<Form layout="vertical" onFinish={onFinish} form={empForm}>
-<Item label="Profile" name="profile">
+<Form layout="vertical" onFinish={edit?onEdit:onFinish} form={empForm}>
+<Item label="Profile">
     <Input onChange={handleupload} type="file"></Input>
 </Item>
 <div className="grid md:grid-cols-2 gap-x-2">
     <Item label="Full Name" name="fullname" rules={[{required:true}]}>
     <Input type="text" placeholder="Name"/>
 </Item>
-<Item label="Number"  name="number" rules={[{required:true}]}>
+<Item label="Number"  name="mobile" rules={[{required:true}]}>
     <Input type="number" placeholder="Number"/>
 </Item>
    <Item label="Email" name="email" rules={[{required:true}]}>
     <Input type="mail" placeholder="@gmail.com"/>
 </Item>
 <Item label="Password"  name="password" rules={[{required:true}]}>
-    <Input type="password" placeholder="Password"/>
+    <Input type="password" disabled={edit?true:false} placeholder="Password"/>
 </Item>
 </div>
 <Item label="Address" name="address">
     <Input.TextArea/>
 </Item>
 <Item>
-    <Button className="!bg-blue-400 !text-white !font-bold" type="text" htmlType="submit">Submit</Button>
+  {
+   edit?  <Button className="!bg-rose-400 !text-white !font-bold" type="text" htmlType="submit">Updated</Button>:
+     <Button className="!bg-blue-400 !text-white !font-bold" type="text" htmlType="submit">Submit</Button>
+  }
 </Item>
 </Form>
 </Card>
