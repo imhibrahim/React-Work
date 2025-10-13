@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {
+    BranchesOutlined,
     DashboardOutlined,
+    GiftOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     UploadOutlined,
@@ -23,7 +25,12 @@ const AdminLayout = ({ children }) => {
             icon: <UserOutlined />, 
             label: <Link to="/newemployee">New Employee</Link>,
         },
-        ,
+             {
+            key: '/newemployee/branding',
+            icon: <BranchesOutlined />,
+            label: <Link to="/newemployee/branding">Branding</Link>
+        },
+
     ]
     const [collapsed, setCollapsed] = useState(false);
     const {

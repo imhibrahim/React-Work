@@ -108,9 +108,7 @@ const onUpdate=async(obj)=>{
 
   //Create State on top
 setEdit(obj);
-empForm.setFieldsValue(obj)
-
-}
+empForm.setFieldsValue(obj)}
 
 const onEdit=async(values)=>{
  try{
@@ -125,7 +123,6 @@ const onEdit=async(values)=>{
   window.location.reload();
     console.log(data)
    });
-
  }
  catch(e){
   swal("Error","Unable to Updated","error")

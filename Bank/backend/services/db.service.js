@@ -13,8 +13,6 @@ const mongo =require('mongoose');
     const dbRes= await new schema(data).save();
     return dbRes; 
  }
-
-
    const updateRecord=async (id,data,schema)=>{
     const dbRes= await schema.findByIdAndUpdate(id,data,{new:true});
     return dbRes; 
