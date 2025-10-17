@@ -22,7 +22,7 @@ function Branding(){
        <Form form={bankForm} layout="vertical" onFinish={onFinish}>
 
         <div className="grid md:grid-cols-3 gap-x-4">
-      <Item label="Enter Name" name='bankName'  rules={[{ required: true }]}>
+      <Item label="Enter Name" name='bankName'  rules={[{required: true }]}>
   <Input placeholder="Enter Name" />
 </Item>
 

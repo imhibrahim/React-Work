@@ -1,9 +1,28 @@
-import{Button, Card,Form,Input} from "antd"
+import{Button, Card,Form,Input, message} from "antd"
+import { trimData } from "../../../modules/module";
 const {Item}= Form;
+import axios from "axios";
+import swal from"sweetalert";
+
 const Loginpage=()=>{
-const onFinish=(values)=>{
-console.log(values)
+
+
+   
+const onFinish=async(values)=>{
+//console.log(values)
+
+try{
+   let finalobj  = trimData(values);
+        const {data}=await axios.post("http://localhost:4500/api/login",finalobj);
+     console.log(data);
 }
+catch(e){
+   console.log(e);
+swal('Error',`Error ${e}`,"error")
+}
+
+}
+
    return(
      <div className="flex">
 
@@ -14,7 +33,7 @@ console.log(values)
 <Card className="shadow-2xl !bg-pink-50">
    <h1 className="text-2xl text-center font-semibold mb-4">Bank Login</h1>
    <Form onFinish={onFinish}>
-<Item name="username" label="User Name" rules={[{required:true}]}>
+<Item name="email" label="User Name" rules={[{required:true}]}>
    <Input placeholder="Enter Name"/>
 </Item>
 <Item name="password" label="User Password" rules={[{required:true}]}>

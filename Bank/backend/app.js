@@ -23,6 +23,9 @@ app.use("/api/users",userRouter)
  const uploadrouter=require("./routes/upload.routed");
 app.use("/api/upload",uploadrouter);
 
+ const login=require("./routes/login.route");
+app.use("/api/login",login);
+
 
 
 // catch 404 and forward to error handler
