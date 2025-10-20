@@ -13,6 +13,10 @@ const usersSchema= new Schema({
     profile:String,
     address:String,
     userType:String,
+    role:{
+        type:String,
+        default:"user"
+    },
     isActive:{
         type:Boolean,
         default:false

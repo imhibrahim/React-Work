@@ -17,7 +17,7 @@ const HomeLayout = ({children}) => {
   return (
         <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
-       <Link to="/admin" className='!text-pink-500'>Admin Panel</Link>
+       <Link to="" className='!text-pink-500'>LogOut</Link>
         </Header>
         <Content
           style={{

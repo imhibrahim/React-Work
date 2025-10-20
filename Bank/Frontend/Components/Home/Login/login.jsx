@@ -15,10 +15,28 @@ try{
    let finalobj  = trimData(values);
         const {data}=await axios.post("http://localhost:4500/api/login",finalobj);
      console.log(data);
+      swal('Login', 'Login Success...', 'success');
+      if(data.isLogged){
+          localStorage.setItem("token", data.JWTTOKEN);
+    localStorage.setItem("role", data.role);
+    
+    if (data.role === "admin") {
+      window.location.href = "http://localhost:5173/admin";
+    } else {
+      window.location.href = "http://localhost:5173/user";
+    }
+
+      }
+      
 }
-catch(e){
-   console.log(e);
-swal('Error',`Error ${e}`,"error")
+catch (e) {
+  if (e.response.status === 401) {
+    swal('Error', 'Invalid email or password', 'error');
+  } 
+  else {
+    swal('Error', 'Something went wrong! Please try again later.', 'error');
+  }
+  console.log(e);
 }
 
 }
