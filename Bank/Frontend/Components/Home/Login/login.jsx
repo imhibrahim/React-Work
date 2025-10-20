@@ -3,10 +3,10 @@ import { trimData } from "../../../modules/module";
 const {Item}= Form;
 import axios from "axios";
 import swal from"sweetalert";
+import { useNavigate } from "react-router-dom";
 
 const Loginpage=()=>{
-
-
+ const navigate = useNavigate();
    
 const onFinish=async(values)=>{
 //console.log(values)
@@ -21,9 +21,9 @@ try{
     localStorage.setItem("role", data.role);
     
     if (data.role === "admin") {
-      window.location.href = "http://localhost:5173/admin";
+      navigate("/admin");
     } else {
-      window.location.href = "http://localhost:5173/user";
+      navigate("/user"); 
     }
 
       }
