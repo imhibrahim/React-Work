@@ -24,7 +24,7 @@ try{
       navigate("/admin");
     } else {
       navigate("/user"); 
-    }
+    } 
 
       }
       
