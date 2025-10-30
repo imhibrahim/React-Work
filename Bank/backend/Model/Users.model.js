@@ -1,6 +1,12 @@
 const mongo =require("mongoose");
 const{Schema}=mongo;
 
+const transectionSchema = new Schema({
+  type: String,
+  refrence: String,
+  amount: Number,
+  date: { type: Date, default: Date.now },
+});
 
 const usersSchema= new Schema({
     fullname:String,
@@ -13,6 +19,8 @@ const usersSchema= new Schema({
     profile:String,
     address:String,
     userType:String,
+   balance: { type: Number, default: 5000 },
+  transections: [transectionSchema],
     role:{
         type:String,
         default:"user"

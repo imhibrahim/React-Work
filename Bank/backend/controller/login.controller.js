@@ -27,7 +27,10 @@ const payload = {
         isLogged:true,
        Data: dbRes,
        JWTTOKEN:token,
-       role: dbRes.role
+       role: dbRes.role,
+       fullname: dbRes.fullname,
+       email: dbRes.email,
+       amount:dbRes.balance
 })
 }
 else{

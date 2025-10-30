@@ -25,6 +25,9 @@ app.use("/api/upload",uploadrouter);
 
  const login=require("./routes/login.route");
 app.use("/api/login",login);
+ const transection=require("./routes/transection/transection.route");
+app.use("/api/transection",transection);
+
 
 
 

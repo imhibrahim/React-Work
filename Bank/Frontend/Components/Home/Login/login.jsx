@@ -19,6 +19,10 @@ try{
       if(data.isLogged){
           localStorage.setItem("token", data.JWTTOKEN);
     localStorage.setItem("role", data.role);
+    localStorage.setItem("Name", data.fullname);
+    localStorage.setItem("Mail", data.email);
+    localStorage.setItem("balance", data.amount);
+   
     
     if (data.role === "admin") {
       navigate("/admin");
